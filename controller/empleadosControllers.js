@@ -17,7 +17,7 @@ export const addEmpleado = async (req, res) => {
     try {
 
         let empleado = await empleadoModel.findOne({ dni });
-        if (empleado) return res.status(200).json({ "admin": "Ya Existe el Empleado" });
+        if (empleado) return res.sendStatus(401)
 
         empleado = new empleadoModel({ nombre, apellido, dni });
 
