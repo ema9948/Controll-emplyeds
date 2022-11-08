@@ -34,7 +34,6 @@ export const register = async (req, res) => {
         return res.status(201).json({ "admin": "admin registrado" });
 
     } catch (error) {
-        console.log(error)
         return res.status(500).json({ "error": "Error de servidor" })
     }
 }
@@ -46,11 +45,9 @@ export const fargotPassword = async (req, res) => {
         let admin = await adminModel.findOne({ nombre });
         if (!admin) return res.status(404).json({ "admin": "admin no registrado" });
         admin.password = password;
-        console.log(admin)
         await admin.save();
         return res.sendStatus(200);
     } catch (error) {
-        console.log(error)
         return res.status(500).json({ "error": "Error de servidor" })
     }
 

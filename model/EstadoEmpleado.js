@@ -11,6 +11,9 @@ const estadoSchema = new Schema({
         type: Boolean,
         default: false
     },
+    extra: {
+        type: String
+    },
     empleado: {
         type: Schema.Types.ObjectId,
         ref: "Empleado",

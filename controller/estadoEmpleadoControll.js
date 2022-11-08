@@ -1,6 +1,5 @@
 import { estadoModel } from "../model/EstadoEmpleado.js";
 import { empleadoModel } from "../model/Empleados.js";
-import { verifyDate } from "../utils/verifiyDate.js";
 
 
 export const addEstado = async (req, res) => {
@@ -18,12 +17,24 @@ export const addEstado = async (req, res) => {
 
         //?buscamos si la existe la fecha ingreso
         const create_on = await estadoModel.findOne({ empleado }).sort({ ingreso: -1 })
-
+        console.log(create_on)
         //? verificamos si tiene ingreso y si la fecha y el ingreso son diferentes
         if (create_on) {
             if (!create_on?.egreso && create_on?.ingreso.valueOf() !== fecha.valueOf()) {
                 create_on.egreso = fecha
                 create_on.estado = true;
+                if (((create_on?.ingreso.getHours() - 24) - (create_on?.egreso.getHours() - 24)) != 8 && (create_on?.ingreso.getDate() != create_on?.egreso.getDate())) {
+                    const data = (24 - ((create_on?.ingreso.getHours() - 24) - (create_on?.getHours() - 24)));
+                    create_on.extra = data;
+                    await create_on.save();
+                    return res.sendStatus(200);
+                }
+                if (((create_on?.ingreso.getHours() - 24) - (create_on?.egreso.getHours() - 24)) > 8 && (create_on?.ingreso.getDate() == create_on?.egreso.getDate())) {
+                    const data = (create_on?.ingreso.getHours() - 24) - (create_on?.getHours() - 24)
+                    create_on.extra = data;
+                    await create_on.save();
+                    return res.sendStatus(200);
+                }
                 await create_on.save();
                 return res.sendStatus(200);
             }
@@ -54,31 +65,5 @@ export const allEstado = async (req, res) => {
     }
 }
 
-export const pacthEstado = async (req, res) => {
-    const { id } = req.params;
-    const { ingreso, egreso } = req.body
 
-    try {
-        const data = await estadoModel.findById(id)
-        if (verifyDate(ingreso)) data.ingreso = ingreso
 
-        if (verifyDate(egreso)) data.egreso = egreso
-        await data.save()
-        return res.sendStatus(200);
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "error": "Error de servidor" })
-    }
-}
-
-export const deleteEstado = async (req, res) => {
-    const { id } = req.params
-
-    try {
-        const empleado = await estadoModel.findByIdAndDelete(id);
-        return res.sendStatus(200);
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "error": "Error de servidor" })
-    }
-}
