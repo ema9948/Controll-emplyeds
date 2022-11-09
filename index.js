@@ -8,9 +8,18 @@ import estadoEmpleado from "./router/estadoEmpleado.js";
 
 const app = express()
 
+var whitelist = [process.env.URL_FRONT1, process.env.URL_FRONT2];
 
+app.use(cors({
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}))
 
-app.use(cors({ origin: "*" }))
 app.use(express.json());
 
 app.use("/api/v1/user", userRouter)

@@ -38,7 +38,6 @@ export const deleteEmpleado = async (req, res) => {
         const estado = await estadoModel.deleteMany({ empleado: id });
         return res.sendStatus(200);
     } catch (error) {
-        console.log(error)
         return res.status(500).json({ "error": "Error de servidor" })
     }
 }
