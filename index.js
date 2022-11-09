@@ -8,7 +8,7 @@ import estadoEmpleado from "./router/estadoEmpleado.js";
 
 const app = express()
 
-var whitelist = [process.env.URL_FRONT1, process.env.URL_FRONT2];
+var whitelist = [process.env.URL_FRONT, process.env.URL_FRONT2];
 
 app.use(cors({
     origin: function (origin, callback) {
