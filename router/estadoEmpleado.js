@@ -7,8 +7,7 @@ const estadoEmpleado = Router();
 //? AllEmpleados mehtod get
 //? addEmpleado method post
 //! delete and pacth v1 0.0.1
-estadoEmpleado.get("/allEstado", jwtVerify, allEstado)
-estadoEmpleado.post("/addEstado", jwtVerify, validEstado, addEstado)
-
+estadoEmpleado.get("/allEstado", allEstado);
+estadoEmpleado.post("/addEstado", validEstado, addEstado);
 
 export default estadoEmpleado;
