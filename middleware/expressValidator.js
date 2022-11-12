@@ -16,6 +16,6 @@ export const validEmpleado = [
 ];
 
 export const validEstado = [
-  body("dni").trim().isNumeric().notEmpty().escape(),
+  body("dni").trim().notEmpty().escape(),
   validationResultExpress,
 ];
