@@ -31,14 +31,10 @@ export const addEstado = async (req, res) => {
           return res.sendStatus(200);
         }
 
-        if (horaExtra < 8) {
-          const menosHoras = 8 - horaExtra;
-          create_on.egreso = fecha;
-          create_on.estado = true;
-          create_on.extra = "-" + menosHoras;
-          await create_on.save();
-          return res.sendStatus(200);
-        }
+        create_on.egreso = fecha;
+        create_on.estado = true;
+        await create_on.save();
+        return res.sendStatus(200);
       }
     }
     //?Creamos el ingreso
